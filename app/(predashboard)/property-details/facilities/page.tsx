@@ -1,13 +1,14 @@
 import React from 'react'
-import {useRouter} from 'next/router'
+import Buttons from '@/components/Buttons'
+import OnboardButtons from '@/components/OnboardButtons'
 
 
 const FacilitiesPage = () => {
-  const router = useRouter();
-  console.log('this is the router', router);
   return (
     <div>
         Facilities page
+        <Buttons next="/property-details/location/" />
+        <OnboardButtons />
     </div>
   )
 }

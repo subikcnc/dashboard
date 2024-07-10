@@ -1,12 +1,12 @@
+import OnboardButtons from '@/components/OnboardButtons'
 import React from 'react'
-import { useRouter } from 'next/navigation'
 
 const LocationPage = () => {
-  const router = useRouter()
-  console.log('router is ', router)
+  console.log('location page')
   return (
-    <div>Property location information
-        
+    <div>
+      Property location information
+      <OnboardButtons />
     </div>
     
   )

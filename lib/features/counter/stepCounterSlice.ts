@@ -13,8 +13,11 @@ export const stepCounterSlice = createSlice({
     decrement: (state) => {
       state.value -= 1;
     },
+    reset: (state) => {
+      state.value = 0;
+    }
   },
 });
 
-export const { increment, decrement } = stepCounterSlice.actions;
+export const { increment, decrement, reset } = stepCounterSlice.actions;
 export default stepCounterSlice.reducer;
