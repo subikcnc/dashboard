@@ -1,6 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
 // 1. Importing necessary modules
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux";
 import {
   persistStore,
   persistReducer,
@@ -10,21 +10,21 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'; // defaults to local storage for web
-import stepCounter from '@/lib/features/counter/stepCounterSlice'
+} from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to local storage for web
+import stepCounter from "@/lib/features/counter/stepCounterSlice";
 
 // 2. Combine your reducers into a rootReducer
 // You combine your reducers into a 'rootReducer' because 'redux-persist' works with a single root reducer
 const rootReducer = combineReducers({
-  stepCounter: stepCounter,
+  stepCounter,
 });
 
 // 3) Configuration for Redux Persist
 // We define a 'persistConfig' object that specifies the configuration for persisting the state.
 // The 'key' is a unique identifier for the persisted data and 'storage' specifies the storage engine
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
 };
 
@@ -47,7 +47,7 @@ export const makeStore = () => {
 };
 
 // Infer the type of makeStore
-export type AppStore = ReturnType<typeof makeStore>
+export type AppStore = ReturnType<typeof makeStore>;
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<AppStore['getState']>
-export type AppDispatch = AppStore['dispatch']
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
