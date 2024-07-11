@@ -12,12 +12,12 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to local storage for web
-import stepCounter from "@/lib/features/counter/stepCounterSlice";
+import stepCounterReducer from "@/lib/features/counter/stepCounterSlice";
 
 // 2. Combine your reducers into a rootReducer
 // You combine your reducers into a 'rootReducer' because 'redux-persist' works with a single root reducer
 const rootReducer = combineReducers({
-  stepCounter,
+  stepCounter: stepCounterReducer,
 });
 
 // 3) Configuration for Redux Persist

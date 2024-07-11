@@ -1,56 +1,98 @@
 "use client";
 import { useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/lib/store";
 import {
-  increment,
-  decrement,
-  reset,
+  incrementMajorStep,
+  decrementMajorStep,
+  resetMajorStep,
+  incrementMinorStep,
+  decrementMinorStep,
+  resetMinorStep,
 } from "@/lib/features/counter/stepCounterSlice";
 
 const OnboardButtons = () => {
-  const count = useSelector((state: RootState) => state.stepCounter.value);
+  const majorStepCount = useSelector(
+    (state: RootState) => state.stepCounter.currentMajorStep,
+  );
+  const minorStepCount = useSelector(
+    (state: RootState) => state.stepCounter.currentMinorStep,
+  );
+  console.log("major and minor step count: ", majorStepCount, minorStepCount);
   const dispatch = useDispatch();
-  const router = useRouter();
 
-  const steps = useMemo(
+  // const router = useRouter();
+  const majorSteps = useMemo(
     () => [
-      "/property-details/location",
-      "/property-details/name",
-      "/property-details/facilities",
-      "/property-details/breakfast",
-      "/property-details/parking",
-      "/property-details/languages",
-      "/property-details/house-rules",
-      "/room-details/room-type",
+      "/property-details",
+      "/room-details",
+      "/upload-photos",
+      "/final-steps",
     ],
     [],
   );
-  useEffect(() => {
-    if (count >= 0 && count < steps.length) {
-      router.push(steps[count]);
+
+  const minorSteps = useMemo(
+    () => [
+      [
+        "/location",
+        "/name",
+        "/facilities",
+        "/breakfast",
+        "/parking",
+        "/languages",
+        "/house-rules",
+      ],
+      ["/room-type", "/price", "/amenities", "/name"],
+    ],
+    [],
+  );
+
+  // useEffect(() => {
+  //   if (count >= 0 && count < steps.length) {
+  //     router.push(steps[count]);
+  //   }
+  // }, [count, router, steps]);
+  const handleBack = () => {
+    if (majorStepCount === 0) return;
+    dispatch(decrementMajorStep());
+  };
+  const handleContinue = () => {
+    if (majorStepCount === majorSteps.length) return;
+    if (majorStepCount < majorSteps.length) {
+      if (minorSteps[majorStepCount].length === minorStepCount - 1) {
+        dispatch(incrementMajorStep());
+        dispatch(resetMinorStep());
+      } else {
+        dispatch(incrementMinorStep());
+      }
     }
-  }, [count, router, steps]);
+  };
+  const handleReset = () => {
+    dispatch(resetMajorStep());
+    dispatch(resetMinorStep());
+  };
   return (
     <div className="mt-4 flex flex-col justify-center">
       <div>
-        <h1 className="text-2xl">Step Count: {count}</h1>
+        <h1 className="text-2xl">Major Step Count: {majorStepCount}</h1>
+        <h1 className="text-2xl">Minor Step Count: {minorStepCount}</h1>
       </div>
       <div className="mt-2 flex gap-2">
         <button
           className="rounded-lg bg-white px-4 py-2 text-black"
-          onClick={() => dispatch(decrement())}
+          onClick={handleBack}
         >
           Back
         </button>
         <button
           className="rounded-lg bg-violet-700 px-4 py-2"
-          onClick={() => dispatch(increment())}
+          onClick={handleContinue}
         >
           Continue
         </button>
-        <button onClick={() => dispatch(reset())}>Reset</button>
+        <button onClick={handleReset}>Reset</button>
       </div>
     </div>
   );
